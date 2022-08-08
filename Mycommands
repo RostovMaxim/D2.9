@@ -1,0 +1,176 @@
+u1=  User.objects.create_user(username = 'Grigory')
+>>> u1
+<User: Grigory>
+>>> u2= User.objects.create_user(username = 'Antony')
+>>> u2
+<User: Antony>
+======================================================== Создали 2 пользователей
+>>> Author.objects.create(authorUser=u1)
+<Author: Author object (1)>
+>>> Author.objects.create(authorUser=u2) 
+<Author: Author object (2)>
+========================================================Создали два объекта модели Author, связанные с пользователями.
+>>> Category.objects.create(name = 'Phones')
+<Category: Category object (1)>
+>>> Category.objects.create(name = 'Notebooks') 
+<Category: Category object (2)>
+>>> Category.objects.create(name = 'Cinema')    
+<Category: Category object (3)>
+>>> Category.objects.create(name = 'For18+') 
+<Category: Category object (4)>
+========================================================Добавили 4 категории в модель Category
+>>> Post.objects.create(author =author, categoryType= 'NW', title='sometitle', text='somebigtext') 
+<Post: Post object (1)>
+>>> Post.objects.create(author =author, categoryType= 'AR', title='sometitle', text='RussianBigARTICLE') 
+<Post: Post object (2)>
+>>> Post.objects.create(author =author, categoryType= 'AR', title='sometitle', text='Summer')            
+<Post: Post object (3)>
+=======================================================Добавили 1 новость и 2 статьи
+>>> Post.objects.get(id=2).title
+'sometitle'
+>>> Post.objects.get(id=3).text  
+'Summer'
+>>> Post.objects.get(id=1).postcategory.add(Category.objects.get(id=1))
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Post' object has no attribute 'postcategory'
+>>> Post.objects.get(id=1).postCategory.add(Category.objects.get(id=1)) 
+>>> Post.objects.get(id=2).postCategory.add(Category.objects.get(id=1)) 
+>>> Post.objects.get(id=2).postCategory.add(Category.objects.get(id=2)) 
+===============================================================================Присвоили им категолии
+>>> Comment.objects.create(commentPost=Post.objects.get(id=1),commentUser= Author.objects.get(id=1).authorUser, text='slavnajaStatja') 
+<Comment: Comment object (1)>
+>>> Comment.objects.create(commentPost=Post.objects.get(id=1),commentUser= Author.objects.get(id=2).authorUser, text='soglasen')       
+<Comment: Comment object (2)>
+>>> Comment.objects.create(commentPost=Post.objects.get(id=2),commentUser= Author.objects.get(id=2).authorUser, text='spasibo')  
+<Comment: Comment object (3)>
+>>> Comment.objects.create(commentPost=Post.objects.get(id=2),commentUser= Author.objects.get(id=1).authorUser, text='!!!')     
+<Comment: Comment object (4)>
+>>> Comment.objects.create(commentPost=Post.objects.get(id=2),commentUser= Author.objects.get(id=2).authorUser, text='klass')   
+<Comment: Comment object (5)>
+>>> Comment.objects.create(commentPost=Post.objects.get(id=3),commentUser= Author.objects.get(id=2).authorUser, text='klasss') 
+<Comment: Comment object (6)>
+=================================================================================================Добавили комментарии к разным объектам
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=1).like()
+>>> Comment.objects.get(id=3).like() 
+>>> Comment.objects.get(id=2).dislike() 
+>>> Comment.objects.get(id=2).dislike()
+>>> Comment.objects.get(id=6).dislike() 
+>>> Comment.objects.get(id=6).dislike() 
+>>> Comment.objects.get(id=6).dislike()
+>>> Comment.objects.get(id=6).dislike()
+>>> Comment.objects.get(id=5).like()    
+>>> Comment.objects.get(id=5).like()
+>>> Comment.objects.get(id=5).like()
+>>> Comment.objects.get(id=5).like()
+>>> Comment.objects.get(id=5).like()
+>>> Comment.objects.get(id=2).like() 
+>>> Comment.objects.get(id=2).like()
+>>> Comment.objects.get(id=4).like() 
+>>> Comment.objects.get(id=4).like()
+>>> Comment.objects.get(id=4).like()
+>>> Comment.objects.get(id=4).like()
+>>> Comment.objects.get(id=4).like()
+>>> Comment.objects.get(id=4).like()
+>>> Comment.objects.get(id=4).like()
+>>> Comment.objects.get(id=4).dislike() 
+>>> Comment.objects.get(id=4).dislike()
+>>> Comment.objects.get(id=3).dislike() 
+>>> Comment.objects.get(id=5).dislike() 
+=============================================Применили функцию Like, dislike
+>>> Comment.objects.get(id=5).rating   
+4
+>>> Comment.objects.get(id=6).rating 
+-4
+>>> Comment.objects.get(id=3).rating 
+0
+>>> Comment.objects.get(id=3).dislike() 
+>>> Comment.objects.get(id=3).rating    
+-1
+>>> Comment.objects.get(id=1).rating 
+2
+>>> Comment.objects.get(id=4).rating 
+5
+>>> Author.objects..get(id=1)
+  File "<console>", line 1
+    Author.objects..get(id=1)
+                   ^
+SyntaxError: invalid syntax
+>>> Author.objects.get(id=1)  
+<Author: Author object (1)>
+>>> Author.objects.get(id=2) 
+<Author: Author object (2)>
+>>> a= Author.objects.get(id=2) 
+>>> a.update_rating
+<bound method Author.update_rating of <Author: Author object (2)>>
+>>> a.update_rating()
+>>> a.rating         
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+AttributeError: 'Author' object has no attribute 'rating'
+>>> a.ratingAuthor
+-1
+>>> a= Author.objects.order_by('-ratingAuthor')[:1]
+>>> a
+<QuerySet [<Author: Author object (1)>]>
+>>> a= Author.objects.order_by('-ratingAuthor')[:2] 
+>>> a
+<QuerySet [<Author: Author object (1)>, <Author: Author object (2)>]>
+>>> a= Author.objects.order_by('-ratingAuthor')    
+>>> a
+<QuerySet [<Author: Author object (1)>, <Author: Author object (2)>]>
+=======================================================================обновили рейтинг пользователя
+>>> for i in a:    horme
+...     i.ratingAuthor
+...     i.authorUser.username
+... 
+0
+'Grigory'
+-1
+'Antony'
+====================================================================username и рейтинг лучшего пользователя
+nice_post=Post.objects.all().order_by('-rating').values('dateCreation', 'postAuthor__authorUser__username', 'rating', 'preview_name', 'text')[0]
+>>> nice_post
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "D:\project_end\venv\lib\site-packages\django\db\models\query.py", line 1297, in values
+    clone = self._values(*fields, **expressions)
+  File "D:\project_end\venv\lib\site-packages\django\db\models\query.py", line 1292, in _values
+    clone.query.set_values(fields)
+  File "D:\project_end\venv\lib\site-packages\django\db\models\sql\query.py", line 2437, in set_values
+    self.add_fields(field_names, True)
+  File "D:\project_end\venv\lib\site-packages\django\db\models\sql\query.py", line 2142, in add_fields
+    join_info = self.setup_joins(
+  File "D:\project_end\venv\lib\site-packages\django\db\models\sql\query.py", line 1808, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+  File "D:\project_end\venv\lib\site-packages\django\db\models\sql\query.py", line 1709, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'postAuthor' into field. Choices are: author, author_id, categoryType, comment, dateCreation, id, postCategory, postcategory, rating, text, title
+
+=======================================================================================================================================не понимаю в чем ошибка, подсказка в чате Slack ,но не сработало
+>>> comments=Comment.objects.all().order_by().values('dateCreation', 'commentUser__username', 'commentPost', 'rating', 'commentText')[0]
+Traceback (most recent call last):
+  File "D:\project_end\venv\lib\site-packages\django\db\models\sql\query.py", line 2142, in add_fields
+    join_info = self.setup_joins(
+  File "D:\project_end\venv\lib\site-packages\django\db\models\sql\query.py", line 1808, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+  File "D:\project_end\venv\lib\site-packages\django\db\models\sql\query.py", line 1709, in names_to_path
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'commentText' into field. Choices are: commentPost, commentPost_id, commentUser, commentUser_id, dateCreation, id, rating, text
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<console>", line 1, in <module>
+  File "D:\project_end\venv\lib\site-packages\django\db\models\query.py", line 1297, in values
+    clone = self._values(*fields, **expressions)
+  File "D:\project_end\venv\lib\site-packages\django\db\models\query.py", line 1292, in _values
+    clone.query.set_values(fields)
+  File "D:\project_end\venv\lib\site-packages\django\db\models\sql\query.py", line 2437, in set_values
+    self.add_fields(field_names, True)
+  File "D:\project_end\venv\lib\site-packages\django\db\models\sql\query.py", line 2175, in add_fields
+    raise FieldError(
+django.core.exceptions.FieldError: Cannot resolve keyword 'commentText' into field. Choices are: commentPost, commentPost_id, commentUser, commentUser_id, dateCreation, id, rating, text
+==========================================================================================================================================================================================================
+не понимаю в чем ошибка, подсказка в чате Slack ,но не сработало
